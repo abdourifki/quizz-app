@@ -13,7 +13,7 @@ const Categorie = () => {
       };
   return (
     <>
-      <h1>Categorys</h1>
+      <h1>Categories</h1>
 
       <div className="card-container">
         <Card style={{ width: "350px" }} className="card">

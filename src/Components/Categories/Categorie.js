@@ -5,18 +5,33 @@ import front from "../../Assets/frontEnd.png";
 import back from "../../Assets/backEnd.png";
 import full from "../../Assets/fullStack.png";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useNavigate } from "react-router-dom";
+
 const Categorie = () => {
+  const Navigate= useNavigate();
+
+  const FullQuizz= ()=>{
+    Navigate("/FullQuizz")
+  };
+  const FrontQuizz= ()=>{
+    Navigate("/FrontQuizz")
+  };
+  const BackQuizz= ()=>{
+    Navigate("/BackQuizz")
+  };
+
     const imageSizeStyle = {
         width: "100%", // Set your desired width
-        height: "350px", // Set your desired height
+        height: "250px", // Set your desired height
         objectFit: "cover", // Maintain aspect ratio and cover the container
-      };
+      };  
+
   return (
     <>
-      <h1>Categorys</h1>
+      <h1 className="title">Categories</h1>
 
       <div className="card-container">
-        <Card style={{ width: "350px" }} className="card">
+        <Card style={{ width: "350px" }} className="card"  onClick={FrontQuizz}>
           <Card.Img variant="top" src={front} style={imageSizeStyle} />
           <hr />
           <Card.Body className="body">
@@ -27,7 +42,7 @@ const Categorie = () => {
             </Card.Text>
           </Card.Body>
         </Card>
-        <Card style={{ width: "350px" }} className="card">
+        <Card style={{ width: "350px" }} className="card" onClick={BackQuizz}>
           <Card.Img variant="top" src={back}  style={imageSizeStyle} />
           <hr />
           <Card.Body className="body">
@@ -38,7 +53,7 @@ const Categorie = () => {
             </Card.Text>
           </Card.Body>
         </Card>
-        <Card style={{ width: "350px"}} className="card">
+        <Card style={{ width: "350px"}} className="card" onClick={FullQuizz}>
           <Card.Img variant="top" src={full} style={imageSizeStyle} />
           <hr />
           <Card.Body className="body">

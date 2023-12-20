@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 const BackEndQuizz = () => {
   const questionsData = [
     {
@@ -54,6 +54,8 @@ const BackEndQuizz = () => {
   const [userAnswers, setUserAnswers] = useState(
     Array(questionsData.length).fill([])
   );
+
+  const Navigate= useNavigate();
   const [showResult, setShowResult] = useState(false);
 
   const handleAnswerClick = (selectedOption) => {
@@ -73,6 +75,10 @@ const BackEndQuizz = () => {
 
     setUserAnswers(newAnswers);
   };
+  const closeResult = () => {
+    setShowResult(false);
+    Navigate("/")
+  };
 
   const handleNextClick = () => {
     if (currentQuestion < questionsData.length - 1) {
@@ -82,11 +88,7 @@ const BackEndQuizz = () => {
     }
   };
 
-  const handleRestartQuiz = () => {
-    setCurrentQuestion(0);
-    setUserAnswers(Array(questionsData.length).fill([]));
-    setShowResult(false);
-  };
+ 
 
   const calculateScore = () => {
     let score = 0;
@@ -102,19 +104,24 @@ const BackEndQuizz = () => {
   return (
     <div id="quiz-container">
       {showResult ? (
-        <div className="result">
-          <h2>Vos résultats</h2>
-          <p>
-            Vous avez obtenu {calculateScore()} sur {questionsData.length}.
-          </p>
+        <div className="result-container">
+          <div className="result">
+            <h2> Résultat :</h2>
+            <p>
+              Vous avez obtenu {calculateScore()} sur {questionsData.length}.
+            </p>
+            <div className="close" onClick={closeResult}>
+              <p>X</p>
+            </div>
+          </div>
         </div>
       ) : (
-        <div className="question">
-          <h2>{questionsData[currentQuestion].questionText}</h2>
-          <ul>
-            {questionsData[currentQuestion].options.map((option, index) => (
-              <li key={index}>
-                <label>
+        <div className="question-container">
+          <div className="question">
+            <h2>{questionsData[currentQuestion].questionText}</h2>
+            <ul>
+              {questionsData[currentQuestion].options.map((option, index) => (
+                <li key={index}>
                   <input
                     type="checkbox"
                     value={option}
@@ -122,17 +129,19 @@ const BackEndQuizz = () => {
                     checked={(userAnswers[currentQuestion] || []).includes(
                       option
                     )}
+                    id={index}
                   />
-                  {option}
-                </label>
-              </li>
-            ))}
-          </ul>
-          <button onClick={handleNextClick}>
-            {currentQuestion === questionsData.length - 1
-              ? "Soumettre"
-              : "Suivant"}
-          </button>
+
+                  <label htmlFor={index}>{option}</label>
+                </li>
+              ))}
+            </ul>
+            <button onClick={handleNextClick} className="quiz-btn">
+              {currentQuestion === questionsData.length - 1
+                ? "Soumettre"
+                : "Suivant"}
+            </button>
+          </div>
         </div>
       )}
     </div>

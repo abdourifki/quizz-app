@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import "../BackQuizz/BackQuizz.css";
 const BackEndQuizz = () => {
   const questionsData = [
     {
@@ -54,9 +55,9 @@ const BackEndQuizz = () => {
   const [userAnswers, setUserAnswers] = useState(
     Array(questionsData.length).fill([])
   );
-
-  const Navigate= useNavigate();
   const [showResult, setShowResult] = useState(false);
+  let [timer, setTimer] = useState(60);
+  const Navigate = useNavigate();
 
   const handleAnswerClick = (selectedOption) => {
     const newAnswers = [...userAnswers];
@@ -75,10 +76,6 @@ const BackEndQuizz = () => {
 
     setUserAnswers(newAnswers);
   };
-  const closeResult = () => {
-    setShowResult(false);
-    Navigate("/")
-  };
 
   const handleNextClick = () => {
     if (currentQuestion < questionsData.length - 1) {
@@ -87,8 +84,10 @@ const BackEndQuizz = () => {
       setShowResult(true);
     }
   };
-
- 
+  const closeResult = () => {
+    setShowResult(false);
+    Navigate("/");
+  };
 
   const calculateScore = () => {
     let score = 0;
@@ -100,23 +99,65 @@ const BackEndQuizz = () => {
     });
     return score;
   };
+  useEffect(() => {
+    if (timer > 0) {
+      const timerInterval = setInterval(() => {
+        setTimer((timer -= 1));
+      }, 1000);
+
+      return () => clearInterval(timerInterval);
+    }
+  }, [timer]);
 
   return (
     <div id="quiz-container">
+      {/* {timer==60 ? "1:00":`00:${timer}`} */}
       {showResult ? (
-        <div className="result-container">
-          <div className="result">
-            <h2> Résultat :</h2>
-            <p>
-              Vous avez obtenu {calculateScore()} sur {questionsData.length}.
-            </p>
-            <div className="close" onClick={closeResult}>
-              <p>X</p>
+        
+          <div className="result-card">
+            <button type="button" className="dismiss" onClick={closeResult}>
+              ×
+            </button>
+            <div className="header">
+              <div className="image">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <g stroke-width="0" id="SVGRepo_bgCarrier"></g>
+                  <g
+                    stroke-linejoin="round"
+                    stroke-linecap="round"
+                    id="SVGRepo_tracerCarrier"
+                  ></g>
+                  <g id="SVGRepo_iconCarrier">
+                    {" "}
+                    <path
+                      stroke-linejoin="round"
+                      stroke-linecap="round"
+                      stroke-width="1.5"
+                      stroke="#000000"
+                      d="M20 7L9.00004 18L3.99994 13"
+                    ></path>{" "}
+                  </g>
+                </svg>
+              </div>
+              <div className="content">
+                <span className="title">Order validated</span>
+                <p className="message">
+                  Vous avez obtenu {calculateScore()} sur {questionsData.length}
+                  .
+                </p>
+              </div>
             </div>
           </div>
-        </div>
+        
       ) : (
         <div className="question-container">
+          <div className="timer-container">
+            {timer == 60 ? "1:00" : `00:${timer}`}
+          </div>
           <div className="question">
             <h2>{questionsData[currentQuestion].questionText}</h2>
             <ul>

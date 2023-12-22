@@ -34,7 +34,7 @@ const Categorie = () => {
         <Card style={{ width: "350px" }} className="card"  onClick={FrontQuizz}>
           <Card.Img variant="top" src={front} style={imageSizeStyle} />
           <hr />
-          <Card.Body className="body">
+          <Card.Body className="body"> 
             <Card.Title className="desc" >Front-End</Card.Title>
             <Card.Text className="desc">
             Dive into the creative and interactive world of front-end development, designing user interfaces.

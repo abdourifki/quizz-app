@@ -13,7 +13,7 @@ const Home = () => {
       <div className="home-img-container">
         <div className="image-container">
           <img src={image} alt="image" className="home-image"></img>
-          <button onClick={StartQuizz}>
+          <button onClick={StartQuizz} className="btn">
             <span class="text">Passer Le Quizz</span>
           </button>
         </div>
